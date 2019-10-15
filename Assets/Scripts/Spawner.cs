@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour {
 
-	public float spawnInterval = 1f;
+	public Vector2 spawnIntervalMinMax;
     public float spawnSizeMinMax = 2;
     public float spawnAngleMax = 5;
     public GameObject fallingObject;
+
    
     
     float nextSpawn;
@@ -18,7 +19,8 @@ public class Spawner : MonoBehaviour {
         dimens = new Vector2(Camera.main.aspect * Camera.main.orthographicSize, Camera.main.orthographicSize);
 	}
 
-	void Update () {
+	void Update ()
+    {
 		if (Time.time > nextSpawn)
         {
             Vector2 spawnPoint = new Vector2(Random.Range(-dimens.x, dimens.x), dimens.y + transform.localScale.y);
@@ -28,7 +30,7 @@ public class Spawner : MonoBehaviour {
             GameObject obstacle = (GameObject) Instantiate(fallingObject,spawnPoint, Quaternion.Euler(Vector3.forward * spawnAngle));
             obstacle.transform.localScale =  Vector2.one * spawnSize;
 
-
+            float spawnInterval = Mathf.Lerp(spawnIntervalMinMax.y, spawnIntervalMinMax.x, Difficulty.GetDifficultyPercent());
             nextSpawn = Time.time + spawnInterval;
         }
 	}
