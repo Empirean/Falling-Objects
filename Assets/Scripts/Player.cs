@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
+    public event System.Action OnPlayerDeath;
+
     public float speed = 7;
 
     float screenHalfWidth;
@@ -35,6 +37,11 @@ public class Player : MonoBehaviour {
     {
         if (other.tag == "Obstacle")
         {
+            if (OnPlayerDeath != null)
+            {
+                OnPlayerDeath();
+            }
+
             Destroy(gameObject);
         }
     }
